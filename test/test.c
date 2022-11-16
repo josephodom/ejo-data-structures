@@ -9,8 +9,10 @@ void my_free(void* ptr);
 #define EJO_ALLOCATE my_allocator
 #define EJO_FREE my_free
 #include <ejo/queue.h>
+#include <ejo/stack.h>
 
 extern void test_queue();
+extern void test_stack();
 
 int main()
 {

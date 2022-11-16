@@ -1,14 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-
-#define EJO_ASSERT_QUEUE(x) {\
-    if (!(x)) { \
-        fprintf(stderr, "FAILURE: " #x "\n"); \
-        assert(x); \
-    } \
-}
-
 #include <ejo/queue.h>
 
 void test_queue_happy_path_byte()
@@ -26,11 +18,11 @@ void test_queue_happy_path_byte()
 
     // Empty the queue
     EJO_Queue_Shift(queue, &value);
-    EJO_ASSERT_QUEUE(value == 1);
+    assert(value == 1);
     EJO_Queue_Shift(queue, &value);
-    EJO_ASSERT_QUEUE(value == 2);
+    assert(value == 2);
     EJO_Queue_Shift(queue, &value);
-    EJO_ASSERT_QUEUE(value == 3);
+    assert(value == 3);
 
     EJO_Queue_Free(queue);
 }
@@ -50,11 +42,11 @@ void test_queue_happy_path_multibyte()
 
     // Empty the queue
     EJO_Queue_Shift(queue, &value);
-    EJO_ASSERT_QUEUE(strcmp(value, "Jane") == 0);
+    assert(strcmp(value, "Jane") == 0);
     EJO_Queue_Shift(queue, &value);
-    EJO_ASSERT_QUEUE(strcmp(value, "Alex") == 0);
+    assert(strcmp(value, "Alex") == 0);
     EJO_Queue_Shift(queue, &value);
-    EJO_ASSERT_QUEUE(strcmp(value, "Pam!") == 0);
+    assert(strcmp(value, "Pam!") == 0);
 
     EJO_Queue_Free(queue);
 }
@@ -65,18 +57,18 @@ void test_queue_overpush()
     EJO_Queue* queue = EJO_Queue_Create(2, sizeof(value));
 
     value = 8;
-    EJO_ASSERT_QUEUE(EJO_Queue_Push(queue, &value));
+    assert(EJO_Queue_Push(queue, &value));
     value = 9;
-    EJO_ASSERT_QUEUE(EJO_Queue_Push(queue, &value));
+    assert(EJO_Queue_Push(queue, &value));
     value = 10;
-    EJO_ASSERT_QUEUE(!EJO_Queue_Push(queue, &value));
+    assert(!EJO_Queue_Push(queue, &value));
 
-    EJO_ASSERT_QUEUE(EJO_Queue_Shift(queue, &value));
-    EJO_ASSERT_QUEUE(value == 8);
-    EJO_ASSERT_QUEUE(EJO_Queue_Shift(queue, &value));
-    EJO_ASSERT_QUEUE(value == 9);
-    EJO_ASSERT_QUEUE(!EJO_Queue_Shift(queue, &value));
-    EJO_ASSERT_QUEUE(value == 9);
+    assert(EJO_Queue_Shift(queue, &value));
+    assert(value == 8);
+    assert(EJO_Queue_Shift(queue, &value));
+    assert(value == 9);
+    assert(!EJO_Queue_Shift(queue, &value));
+    assert(value == 9);
 
     EJO_Queue_Free(queue);
 }
@@ -87,10 +79,10 @@ void test_queue_overshift()
     EJO_Queue* queue = EJO_Queue_Create(2, sizeof(value));
 
     value = 11;
-    EJO_ASSERT_QUEUE(EJO_Queue_Push(queue, &value));
-    EJO_ASSERT_QUEUE(EJO_Queue_Shift(queue, &value));
-    EJO_ASSERT_QUEUE(value == 11);
-    EJO_ASSERT_QUEUE(!EJO_Queue_Shift(queue, &value));
+    assert(EJO_Queue_Push(queue, &value));
+    assert(EJO_Queue_Shift(queue, &value));
+    assert(value == 11);
+    assert(!EJO_Queue_Shift(queue, &value));
 }
 
 void test_queue_stress()
@@ -100,9 +92,9 @@ void test_queue_stress()
 
     for (int i = 0; i < 100; i++)
     {
-        EJO_ASSERT_QUEUE(EJO_Queue_Push(queue, &i));
-        EJO_ASSERT_QUEUE(EJO_Queue_Shift(queue, &value));
-        EJO_ASSERT_QUEUE(value == i);
+        assert(EJO_Queue_Push(queue, &i));
+        assert(EJO_Queue_Shift(queue, &value));
+        assert(value == i);
     }
 }
 

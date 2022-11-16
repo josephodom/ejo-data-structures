@@ -1,16 +1,15 @@
 #pragma once
 
 /**
- * @brief Furst-in, first-out data type.
- * 
+ * @brief First-in, first-out data structure.
  */
 typedef struct EJO_Queue EJO_Queue;
 
 /**
- * @brief Create a queue. It is allocated & must be freed by the user using the
- * given `EJO_Queue_Free` method.
+ * @brief Create a queue. It is allocated & must be freed by the user with the
+ * given `EJO_Queue_Free` function.
  * 
- * @param capacity number of elements queue should hold at once
+ * @param capacity number of elements queue can hold at once
  * @param unit size of the elements
  * @return EJO_Queue* allocated queue
  */
@@ -26,8 +25,7 @@ EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit);
 char EJO_Queue_Push(EJO_Queue* queue, void* value);
 
 /**
- * @brief Read an element from the queue, unless empty. Element will be removed
- * from queue.
+ * @brief Read the oldest element in the queue & remove it.
  * 
  * @param queue queue to read element from
  * @param dest pointer to save element value in, expected to be queue unit size
