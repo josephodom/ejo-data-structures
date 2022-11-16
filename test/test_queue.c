@@ -113,4 +113,5 @@ void test_queue()
     test_queue_overpush();
     test_queue_overshift();
     test_queue_stress();
+    EJO_ASSERT_QUEUE(0);
 }
