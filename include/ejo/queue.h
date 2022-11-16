@@ -1,13 +1,45 @@
 #pragma once
 
+/**
+ * @brief Furst-in, first-out data type.
+ * 
+ */
 typedef struct EJO_Queue EJO_Queue;
 
+/**
+ * @brief Create a queue. It is allocated & must be freed by the user using the
+ * given `EJO_Queue_Free` method.
+ * 
+ * @param capacity number of elements queue should hold at once
+ * @param unit size of the elements
+ * @return EJO_Queue* allocated queue
+ */
 EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit);
 
+/**
+ * @brief Add an element to a queue, unless full.
+ * 
+ * @param queue queue to add element to
+ * @param value pointer to value to add to queue, expected to be queue unit size
+ * @return char `1` if not full, `0` if full
+ */
 char EJO_Queue_Push(EJO_Queue* queue, void* value);
 
+/**
+ * @brief Read an element from the queue, unless empty. Element will be removed
+ * from queue.
+ * 
+ * @param queue queue to read element from
+ * @param dest pointer to save element value in, expected to be queue unit size
+ * @return char `1` if not empty, `0` if empty
+ */
 char EJO_Queue_Shift(EJO_Queue* queue, void* dest);
 
+/**
+ * @brief Free queue memory. Pointer should not be accessed after this.
+ * 
+ * @param queue queue to destroy
+ */
 void EJO_Queue_Free(EJO_Queue* queue);
 
 #ifdef EJO_DEFINE
