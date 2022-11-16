@@ -2,13 +2,13 @@
 
 typedef struct EJO_Queue EJO_Queue;
 
-EJO_Queue EJO_Queue_Create(size_t capacity, size_t unit);
+EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit);
 
 char EJO_Queue_Push(EJO_Queue* queue, void* value);
 
 char EJO_Queue_Shift(EJO_Queue* queue, void* dest);
 
-void EJO_Queue_Free(EJO_Queue queue);
+void EJO_Queue_Free(EJO_Queue* queue);
 
 #ifdef EJO_DEFINE
 
@@ -35,21 +35,22 @@ void EJO_Queue_Free(EJO_Queue queue);
 typedef struct EJO_Queue
 {
     char* data;
-    size_t index_begin;
-    size_t index_end;
-    size_t size_capacity;
-    size_t size_unit;
+    unsigned long index_begin;
+    unsigned long index_end;
+    unsigned long size_capacity;
+    unsigned long size_unit;
 } EJO_Queue;
 
-EJO_Queue EJO_Queue_Create(size_t capacity, size_t unit)
+EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit)
 {
-    return (EJO_Queue){
-        .data = EJO_ALLOCATE(capacity * unit),
-        .index_begin = 0,
-        .index_end = 0,
-        .size_capacity = capacity,
-        .size_unit = unit,
-    };
+    EJO_Queue* queue = EJO_ALLOCATE(sizeof(EJO_Queue));
+    queue->data = EJO_ALLOCATE(capacity * unit);
+    queue->index_begin = 0;
+    queue->index_end = 0;
+    queue->size_capacity = capacity;
+    queue->size_unit = unit;
+
+    return queue;
 }
 
 char EJO_Queue_Push(EJO_Queue* queue, void* value)
@@ -57,7 +58,7 @@ char EJO_Queue_Push(EJO_Queue* queue, void* value)
     EJO_ASSERT(queue->data != NULL);
     EJO_ASSERT(value != NULL);
     
-    printf("Push to %d\n", queue->index_end);
+    printf("Push to %zu\n", queue->index_end);
     EJO_MEMCPY(
         &queue->data[queue->index_end * queue->size_unit],
         value,
@@ -73,7 +74,7 @@ char EJO_Queue_Shift(EJO_Queue* queue, void* dest)
     EJO_ASSERT(queue->data != NULL);
     EJO_ASSERT(dest != NULL);
     
-    printf("Shift from %d\n", queue->index_begin);
+    printf("Shift from %zu\n", queue->index_begin);
     EJO_MEMCPY(
         dest,
         &queue->data[queue->index_begin * queue->size_unit],
@@ -85,9 +86,10 @@ char EJO_Queue_Shift(EJO_Queue* queue, void* dest)
     return 1;
 }
 
-void EJO_Queue_Free(EJO_Queue queue)
+void EJO_Queue_Free(EJO_Queue* queue)
 {
-    EJO_FREE(queue.data);
+    EJO_FREE(queue->data);
+    EJO_FREE(queue);
 }
 
 #endif

@@ -1,7 +1,11 @@
 CC?=gcc
 
-.PHONY=test
-test:
-	${CC} -c src/test.c -o src/test.o -I`pwd`/include
-	${CC} src/test.o -o bin/test
+.PHONY=run-tests
+run-tests:
+	${CC} -c test/test.c -o test/test.o -I`pwd`/include
+	${CC} -c test/test_queue.c -o test/test_queue.o -I`pwd`/include
+	${CC} \
+		test/test.o \
+		test/test_queue.o \
+		-o bin/test
 	./bin/test
