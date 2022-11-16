@@ -83,4 +83,5 @@ void test_stack()
     test_stack_happy_path_byte();
     test_stack_happy_path_multibyte();
     test_stack_overpush();
+    test_stack_overpop();
 }
