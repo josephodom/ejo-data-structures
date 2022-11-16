@@ -39,6 +39,7 @@ typedef struct EJO_Queue
     unsigned long index_end;
     unsigned long size_capacity;
     unsigned long size_unit;
+    char untouched;
 } EJO_Queue;
 
 EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit)
@@ -49,6 +50,7 @@ EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit)
     queue->index_end = 0;
     queue->size_capacity = capacity;
     queue->size_unit = unit;
+    queue->untouched = 1;
 
     return queue;
 }
@@ -57,6 +59,15 @@ char EJO_Queue_Push(EJO_Queue* queue, void* value)
 {
     EJO_ASSERT(queue->data != NULL);
     EJO_ASSERT(value != NULL);
+
+    if (
+        !queue->untouched
+        && queue->index_begin == queue->index_end
+    ) {
+        return 0;
+    }
+
+    queue->untouched = 0;
     
     printf("Push to %zu\n", queue->index_end);
     EJO_MEMCPY(
@@ -73,6 +84,10 @@ char EJO_Queue_Shift(EJO_Queue* queue, void* dest)
 {
     EJO_ASSERT(queue->data != NULL);
     EJO_ASSERT(dest != NULL);
+
+    if (queue->untouched) {
+        return 0;
+    }
     
     printf("Shift from %zu\n", queue->index_begin);
     EJO_MEMCPY(
@@ -82,6 +97,10 @@ char EJO_Queue_Shift(EJO_Queue* queue, void* dest)
     );
     
     queue->index_begin = (queue->index_begin + 1) % queue->size_capacity;
+
+    if (queue->index_begin == queue->index_end) {
+        queue->untouched = 1;
+    }
     
     return 1;
 }
