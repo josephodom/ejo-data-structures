@@ -69,7 +69,6 @@ char EJO_Queue_Push(EJO_Queue* queue, void* value)
 
     queue->untouched = 0;
     
-    printf("Push to %zu\n", queue->index_end);
     EJO_MEMCPY(
         &queue->data[queue->index_end * queue->size_unit],
         value,
@@ -89,7 +88,6 @@ char EJO_Queue_Shift(EJO_Queue* queue, void* dest)
         return 0;
     }
     
-    printf("Shift from %zu\n", queue->index_begin);
     EJO_MEMCPY(
         dest,
         &queue->data[queue->index_begin * queue->size_unit],
