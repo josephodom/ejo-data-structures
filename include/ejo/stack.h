@@ -1,13 +1,43 @@
 #pragma once
 
+/**
+ * @brief Last-in, first-out data structure.
+ */
 typedef struct EJO_Stack EJO_Stack;
 
+/**
+ * @brief Create a stack. It is allocated & must be freed by the user with the
+ * given `EJO_Stack_Free` function.
+ * 
+ * @param capacity number of elements stack can hold at once
+ * @param unit size of the elements
+ * @return EJO_Stack* allocated stack
+ */
 EJO_Stack* EJO_Stack_Create(unsigned long capacity, unsigned long unit);
 
+/**
+ * @brief Add an element to the stack, unless full.
+ * 
+ * @param stack stack to add element to
+ * @param value pointer to value to add to stack, expected to be queue unit size
+ * @return char `1` if not full, `0` if full
+ */
 char EJO_Stack_Push(EJO_Stack* stack, void* value);
 
+/**
+ * @brief Read the most recently-added element from the stack & remove it.
+ * 
+ * @param stack stack to read element from
+ * @param dest pointer to save element value in, expected to be queue unit size
+ * @return char `1` if not empty, `0` if empty
+ */
 char EJO_Stack_Pop(EJO_Stack* stack, void* dest);
 
+/**
+ * @brief Free stack memory. Pointer should not be accessed after this.
+ * 
+ * @param stack stack to destroy
+ */
 void EJO_Stack_Free(EJO_Stack* stack);
 
 #ifdef EJO_DEFINE
