@@ -33,7 +33,7 @@ void* my_allocator(unsigned long size)
 
 void my_free(void* ptr)
 {
-    printf("Freeing memory at %llu\n", (unsigned long long)ptr);
+    printf("Freeing memory\n");
     
     free(ptr);
 }

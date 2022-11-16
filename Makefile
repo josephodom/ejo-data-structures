@@ -7,5 +7,5 @@ run-tests:
 	${CC} \
 		test/test.o \
 		test/test_queue.o \
-		-o bin/test
-	./bin/test
+		-o main
+	./main

@@ -96,9 +96,9 @@ void test_queue_overshift()
 void test_queue_stress()
 {
     int value;
-    EJO_Queue* queue = EJO_Queue_Create(1, sizeof(value));
+    EJO_Queue* queue = EJO_Queue_Create(3, sizeof(value));
 
-    for (int i = 0; i < 999; i++)
+    for (int i = 0; i < 100; i++)
     {
         EJO_ASSERT_QUEUE(EJO_Queue_Push(queue, &i));
         EJO_ASSERT_QUEUE(EJO_Queue_Shift(queue, &value));
