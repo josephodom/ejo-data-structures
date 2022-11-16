@@ -11,7 +11,7 @@ typedef struct EJO_Queue EJO_Queue;
  * 
  * @param capacity number of elements queue can hold at once
  * @param unit size of the elements
- * @return EJO_Queue* allocated queues
+ * @return EJO_Queue* allocated queue
  */
 EJO_Queue* EJO_Queue_Create(unsigned long capacity, unsigned long unit);
 
