@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @brief Furst-in, first-out data type.
+ * @brief First-in, first-out data type.
  * 
  */
 typedef struct EJO_Queue EJO_Queue;
